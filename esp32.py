@@ -1,7 +1,22 @@
 import machine
 import dht
 import mysql.connector
+import network
+# Wi-Fi Credentials
+SSID = "unreliablecode"
+PASSWORD = "DiahSayang"
 
+# Connect to Wi-Fi
+wlan = network.WLAN(network.STA_IF)
+wlan.active(True)
+wlan.connect(SSID, PASSWORD)
+
+# Wait for connection
+while not wlan.isconnected():
+    print("Connecting to network...")
+    time.sleep(1)
+
+print("Connected to Wi-Fi:", wlan.ifconfig())
 # Konfigurasi koneksi MySQL
 mydb = mysql.connector.connect(
   host="localhost",
