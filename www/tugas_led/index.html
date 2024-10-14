@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status LED</title>
+    <script>
+        function checkStatus() {
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", "status_led.php", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    const ledStatus = document.getElementById("ledStatus");
+                    if (response.status === "1") {  // Check as a string
+                        ledStatus.textContent = "LED Status: ON";
+                        ledStatus.style.color = "green";
+                    } else {
+                        ledStatus.textContent = "LED Status: OFF";
+                        ledStatus.style.color = "red";
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        // Check status every 2 seconds
+        setInterval(checkStatus, 2000);
+    </script>
+</head>
+<body>
+    <h1>Status LED</h1>
+    <p id="ledStatus">Loading...</p>
+</body>
+</html>
